@@ -9,3 +9,19 @@
 html {
     overflow-y: auto
 }
+
+.bg-general {
+    background-image: url('/images/bg-general.png');
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.bg-final {
+    background-image: url('/images/bg-final.png');
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
