@@ -3,10 +3,7 @@ import App from './App.vue'
 import { createApp } from 'vue'
 import { router } from './router'
 import { createPinia } from 'pinia'
-import { createVuetify } from 'vuetify'
-import * as components from 'vuetify/components'
-import * as directives from 'vuetify/directives'
-import { aliases, fa } from 'vuetify/iconsets/fa'
+import { vuetify } from './plugins/vuetify'
 
 // Axios
 axios.defaults.withXSRFToken = true
@@ -19,23 +16,6 @@ axios.interceptors.request.use(function (config) {
     }
 
     return config
-})
-
-// Vuetify
-import 'vuetify/styles'
-import './assets/styles.css'
-import '@fortawesome/fontawesome-free/css/all.css'
-
-const vuetify = createVuetify({
-    components,
-    directives,
-    icons: {
-        defaultSet: 'fa',
-        aliases,
-        sets: {
-            fa,
-        },
-    },
 })
 
 // App
