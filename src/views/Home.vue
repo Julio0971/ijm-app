@@ -8,6 +8,14 @@ const router = useRouter()
     <div>
         <v-img src="/images/logo.svg" height="158" class="mb-6" />
 
+        <h4 class="text-h4 mb-3 text-center text-white">
+            Investigación sobre juicios morales
+        </h4>
+
+        <h6 class="text-h6 mb-3 text-center text-white">
+            Gracias por tu valiosa participación
+        </h6>
+
         <div class="d-flex justify-center">
             <v-btn
                 rounded="pill"

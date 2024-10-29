@@ -40,7 +40,7 @@ const router = useRouter()
                     rounded="pill"
                     color="primary"
                     class="text-none"
-                    @click="router.push({ name: 'home' })"
+                    @click="router.push({ name: 'dilemma' })"
                 >
                     Continuar
                 </v-btn>

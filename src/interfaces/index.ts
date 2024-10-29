@@ -2,6 +2,8 @@ export interface User {
     id: number
     name: string
     username: string
+    step: 'home' | 'notice' | 'subject' | 'instructions' | 'dilemma' | 'thank-you'
+    subject: Subject
 }
 
 export interface Link {
@@ -29,4 +31,21 @@ export interface Theme {
     name: 'light' | 'dark' | 'system'
     icon: 'fa-sun' | 'fa-moon' | 'fa-computer'
     text: 'Claro' | 'Oscuro' | 'Sistema'
+}
+
+export interface Question {
+    id: number
+    name: string
+    question: string
+    video: string | null
+    description: string | null
+}
+
+export interface Subject {
+    id: number
+    gender: 'Hombre' | 'Mujer' | 'Prefiero no contestar'
+    age: number
+    speciality: string
+    grade: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8
+    participated_before: 1 | 0
 }
