@@ -30,15 +30,15 @@ const setErrors = (errors: any) => form.value.errors = errors
 </script>
 
 <template>
-    <v-app>
+    <v-app class="bg-general">
         <v-container style="height: 100vh;">
             <v-row justify="center" align="center" class="fill-height">
                 <v-col cols="12" sm="6" md="4" lg="3">
-                    <h4 class="text-center text-h4 mb-3">
-                        Ingresar
-                    </h4>
-    
-                    <v-card>
+                    <v-card rounded="xl" class="px-3 py-3">
+                        <v-card-title class="text-center text-h5">
+                            Ingresar
+                        </v-card-title>
+
                         <v-card-text>
                             <FormRequest
                                 url="/login"
@@ -50,7 +50,7 @@ const setErrors = (errors: any) => form.value.errors = errors
                                 @set-errors="setErrors"
                             >
                                 <FormInputText
-                                    icon="fa-user"
+                                    icon="user"
                                     label="Usuario"
                                     :error="form.errors.username"
                                     v-model="form.data.username"
@@ -58,7 +58,7 @@ const setErrors = (errors: any) => form.value.errors = errors
                                 
                                 <FormInputText
                                     is-password
-                                    icon="fa-lock"
+                                    icon="lock"
                                     label="Contraseña"
                                     :error="form.errors.password"
                                     v-model="form.data.password"

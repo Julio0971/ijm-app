@@ -7,7 +7,6 @@ const props = defineProps<{
     url: string
     data: object
     buttonText: string
-    isButtonFullWidth?: boolean
     method: 'get' | 'post' | 'put' | 'delete'
 }>()
 
@@ -43,12 +42,15 @@ const handleSubmit = async () => {
     <form @submit.prevent="handleSubmit">
         <slot />
 
-        <v-btn
-            type="submit"
-            color="primary"
-            :loading="loading"
-            v-text="buttonText"
-            :block="props.isButtonFullWidth"
-        />
+        <div class="d-flex justify-end">
+            <v-btn
+                rounded="xl"
+                type="submit"
+                color="primary"
+                :loading="loading"
+                v-text="buttonText"
+                class="text-capitalize"
+            />
+        </div>
     </form>
 </template>
