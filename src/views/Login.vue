@@ -17,7 +17,7 @@ const form = ref({
     }
 })
 
-const setData = () => {
+const setData = async () => {
     form.value.errors = {
         username: '',
         password: ''

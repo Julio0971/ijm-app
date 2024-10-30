@@ -4,13 +4,9 @@ import type { User } from '../interfaces'
 
 export const useStore = defineStore('auth', () => {
     const user = ref({} as User)
-    const theme = ref(localStorage.getItem('theme') ?? 'system')
+    const snackbar_text = ref('')
+    const show_snackbar = ref(false)
+    const snackbar_type = ref('' as 'success' | 'error')
 
-    const setTheme = (option: 'light' | 'dark' | 'system') => {
-        theme.value = option
-
-        localStorage.setItem('theme', option)
-    }
-
-    return { user, theme, setTheme }
+    return { user, show_snackbar, snackbar_text, snackbar_type }
 })

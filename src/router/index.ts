@@ -13,6 +13,7 @@ const routes = [
         { path: '/home', name: 'home', component: () => import('../views/Home.vue'), meta: { title: 'Inicio' } },
         { path: '/dilemma', name: 'dilemma', component: () => import('../views/Dilemma.vue'), meta: { title: 'Dilema' } },
         { path: '/thank-you', name: 'thank-you', component: () => import('../views/ThankYou.vue'), meta: { title: 'Gracias' } },
+        { path: '/dashboard', name: 'dashboard', component: () => import('../views/Dashboard.vue'), meta: { title: 'Dashboard' } },
         { path: '/instructions', name: 'instructions', component: () => import('../views/Instructions.vue'), meta: { title: 'Instrucciones' } },
         { path: '/notice', name: 'notice', component: () => import('../views/Notice.vue'), meta: { title: 'Carta de consentimiento informado ' } },
         { path: '/subject', name: 'subject', component: () => import('../views/Subject.vue'), meta: { title: 'Cuestionario de información demográfica' } },
@@ -30,8 +31,10 @@ router.beforeEach(async (to, _from) => {
 
         store.user = response.user as User
 
-        if (to.name == 'login' || to.name != store.user.step) {
-            return { name: store.user.step }
+        if (store.user.role == 'admin' && (to.name == 'login' || to.name != 'dashboard')) {
+            return { name: 'dashboard' }
+        } else if (store.user.role == 'participant' && (to.name == 'login' || to.name != store.user.step)) {
+            return { name: store.user.step ?? '' }
         }
     } catch (error) {
         if (to.name != 'login') {

@@ -87,7 +87,6 @@ onMounted(() => getSubjectQuestion())
 
         <div v-else>
             <video
-                controls
                 ref="video"
                 class="w-100 mb-4"
                 :src="`${ api_url }/storage/${ question.video }`"

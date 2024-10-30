@@ -17,7 +17,7 @@ const router = useRouter()
                 rounded="pill"
                 class="text-none"
                 color="secondary"
-                @click="router.push({ name: store.user.step })"
+                @click="router.push({ name: store.user.step ?? '' })"
             >
                 Continuar
             </v-btn>

@@ -68,7 +68,7 @@ const updateStep = async (step: 'home' | 'notice' | 'subject' | 'instructions' |
                     </v-list>
                 </v-menu>
             </v-app-bar>
-            
+
             <v-main class="d-flex align-center justify-center">
                 <v-container>
                     <v-row justify="center">
@@ -88,5 +88,21 @@ const updateStep = async (step: 'home' | 'notice' | 'subject' | 'instructions' |
                 </v-container>
             </v-main>
         </v-layout>
+
+        <v-snackbar
+            multi-line
+            location="right bottom"
+            :color="store.snackbar_type"
+            v-model="store.show_snackbar"
+            :timeout="store.snackbar_type == 'success' ? 3000 : -1"
+        >
+            {{ store.snackbar_text }}
+
+            <template v-slot:actions v-if="store.snackbar_type == 'error'">
+                <v-btn @click="store.show_snackbar = false">
+                    <v-icon icon="fas fa-times" />
+                </v-btn>
+            </template>
+        </v-snackbar>
     </v-app>
 </template>

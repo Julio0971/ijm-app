@@ -1,5 +1,6 @@
 import axios from 'axios'
 import moment from 'moment'
+import { useStore } from '../store'
 import type { AxiosError, AxiosResponse } from 'axios'
 
 moment.updateLocale('es', {
@@ -14,10 +15,13 @@ export const useAxiosRequest = async (method: 'get' | 'post' | 'put' | 'delete',
         url += `/${id}`
     }
 
+    const store = useStore()
     const response: AxiosResponse = await axios({ method, url, data })
 
     if ((response.data as { message: string }).message) {
-        console.log((response.data as { message: string }).message)
+        store.show_snackbar = true
+        store.snackbar_type = 'success'
+        store.snackbar_text = (response.data as { message: string }).message
     }
 
     return response.data
@@ -25,6 +29,7 @@ export const useAxiosRequest = async (method: 'get' | 'post' | 'put' | 'delete',
 
 export const useAxiosErrors = (error: AxiosError) => {
     let errors: any = {}
+    const store = useStore()
 
     if (error.response) {
         if ((error.response.data as { errors: any }).errors) {
@@ -32,10 +37,14 @@ export const useAxiosErrors = (error: AxiosError) => {
                 errors[item[0]] = item[1][0]
             })
         } else {
-            console.log((error.response.data as { message: string }).message)
+            store.show_snackbar = true
+            store.snackbar_type = 'error'
+            store.snackbar_text = (error.response.data as { message: string }).message
         }
     } else {
-        console.log(error.message || 'Error')
+        store.show_snackbar = true
+        store.snackbar_type = 'error'
+        store.snackbar_text = error.message || 'Error'
     }
 
     return errors

@@ -2,7 +2,8 @@ export interface User {
     id: number
     name: string
     username: string
-    step: 'home' | 'notice' | 'subject' | 'instructions' | 'dilemma' | 'thank-you'
+    step: 'home' | 'notice' | 'subject' | 'instructions' | 'dilemma' | 'thank-you' | null
+    role: 'admin' | 'participant'
     subject: Subject
 }
 
