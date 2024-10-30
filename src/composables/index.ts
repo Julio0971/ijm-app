@@ -63,6 +63,13 @@ export const toDateTime = (value: string) => {
     return `${moment(value, 'YYYY/MM/DD HH:mm:ss').format('DD/MM/YYYY HH:mm')} hrs.`
 }
 
+export const toMinutesSeconds = (value: number) => {
+    const minutes = Math.floor(value / 60).toString()
+    const seconds = (value % 60).toString()
+
+    return `${ minutes.padStart(2, '0') }:${ seconds.padStart(2, '0') }`
+}
+
 export const toDate = (value: string) => {
     if (!value) {
         return '---'

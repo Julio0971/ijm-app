@@ -1,7 +1,11 @@
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
+const props = defineProps<{
+    loading: boolean
+}>()
 
-const router = useRouter()
+const emit = defineEmits<{
+    (e: 'updateStep', step: 'home' | 'notice' | 'subject' | 'instructions' | 'dilemma' | 'thank-you'): void
+}>()
 </script>
 
 <template>
@@ -40,7 +44,8 @@ const router = useRouter()
                     rounded="pill"
                     color="primary"
                     class="text-none"
-                    @click="router.push({ name: 'dilemma' })"
+                    :loading="props.loading"
+                    @click="emit('updateStep', 'dilemma')"
                 >
                     Continuar
                 </v-btn>

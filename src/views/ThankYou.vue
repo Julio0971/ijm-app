@@ -4,21 +4,19 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-    (e: 'updateStep', step: 'notice' | 'subject' | 'instructions' | 'dilemma' | 'thank-you'): void
+    (e: 'logout'): void
 }>()
 </script>
 
 <template>
     <div class="text-center text-white">
-        <v-img src="/images/logo.svg" height="158" class="mb-6" />
+        <h2 class="text-h2 mb-3">
+            ¡Gracias!
+        </h2>
 
         <h4 class="text-h4 mb-3">
-            Investigación sobre juicios morales
+            Por tu valiosa participación
         </h4>
-
-        <h6 class="text-h6 mb-3">
-            Gracias por tu valiosa participación
-        </h6>
 
         <div class="d-flex justify-center">
             <v-btn
@@ -26,9 +24,9 @@ const emit = defineEmits<{
                 class="text-none"
                 color="secondary"
                 :loading="props.loading"
-                @click="emit('updateStep', 'notice')"
+                @click="emit('logout')"
             >
-                Iniciar
+                Salir
             </v-btn>
         </div>
     </div>
