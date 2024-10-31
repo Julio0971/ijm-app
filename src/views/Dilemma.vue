@@ -56,7 +56,7 @@ const setStopwatch = () => interval.value = setInterval(() => {
 }, 1000)
 
 const answer = async (answer: string) => {
-    loading.value = 'saving-answer'
+    loading.value = `saving-answer-${ answer }`
 
     clearInterval(interval.value)
 
@@ -110,27 +110,27 @@ onMounted(() => getSubjectQuestion())
                         </v-col>
 
                         <v-col cols="12" md="3">
-                            <Transition name="fade" mode="out-in">
-                                <v-skeleton-loader v-if="loading == 'saving-answer'" type="button, button" color="primary" />
-    
-                                <div class="d-flex justify-space-between" v-else>
-                                    <v-btn
-                                        rounded="pill"
-                                        color="primary"
-                                        @click="answer('Sí')"
-                                    >
-                                        Sí
-                                    </v-btn>
-    
-                                    <v-btn
-                                        rounded="pill"
-                                        color="primary"
-                                        @click="answer('No')"
-                                    >
-                                        No
-                                    </v-btn>
-                                </div>
-                            </Transition>
+                            <div class="d-flex justify-space-between">
+                                <v-btn
+                                    rounded="pill"
+                                    color="primary"
+                                    :loading="loading == 'saving-answer-Sí'"
+                                    :disabled="loading == 'saving-answer-No'"
+                                    @click="answer('Sí')"
+                                >
+                                    Sí
+                                </v-btn>
+
+                                <v-btn
+                                    rounded="pill"
+                                    color="primary"
+                                    :loading="loading == 'saving-answer-No'"
+                                    :disabled="loading == 'saving-answer-Sí'"
+                                    @click="answer('No')"
+                                >
+                                    No
+                                </v-btn>
+                            </div>
                         </v-col>
                     </v-row>
                 </v-container>

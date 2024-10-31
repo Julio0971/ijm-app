@@ -72,7 +72,7 @@ const updateStep = async (step: 'home' | 'notice' | 'subject' | 'instructions' |
             <v-main class="d-flex align-center justify-center">
                 <v-container>
                     <v-row justify="center">
-                        <v-col cols="12" sm="10" md="8" lg="6" xl="4">
+                        <v-col cols="12" lg="10" xl="6">
                             <RouterView v-slot="{ Component }">
                                 <Transition name="fade" mode="out-in">
                                     <component

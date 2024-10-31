@@ -49,4 +49,21 @@ export interface Subject {
     speciality: string
     grade: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8
     participated_before: 1 | 0
+    answer: Answer
+}
+
+export interface Answer {
+    id: number
+    answer: string
+    seconds: number
+    in_time: 1 | 0
+    question: Question
+    created_at: string
+}
+
+export interface Header {
+    title: string
+    key: string
+    sortable: boolean
+    align: 'start' | 'end' | 'center'
 }
