@@ -33,7 +33,7 @@ const setErrors = (errors: any) => form.value.errors = errors
     <v-app class="bg-general">
         <v-container style="height: 100vh;">
             <v-row justify="center" align="center" class="fill-height">
-                <v-col cols="12" sm="6" md="4" lg="3">
+                <v-col cols="12" sm="9" md="7" lg="5" xl="3">
                     <v-card rounded="xl" class="px-3 py-3">
                         <v-card-title class="text-center text-h5">
                             Ingresar

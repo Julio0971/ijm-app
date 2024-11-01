@@ -9,7 +9,7 @@ const emit = defineEmits<{
 </script>
 
 <template>
-    <div class="text-center text-white">
+    <v-col class="text-center text-white">
         <v-img src="/images/logo.svg" height="158" class="mb-6" />
 
         <h4 class="text-h4 mb-3">
@@ -31,5 +31,5 @@ const emit = defineEmits<{
                 Iniciar
             </v-btn>
         </div>
-    </div>
+    </v-col>
 </template>

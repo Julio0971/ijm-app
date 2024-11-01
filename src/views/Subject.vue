@@ -63,59 +63,61 @@ const setErrors = (errors: any) => form.value.errors = errors
 </script>
 
 <template>
-    <v-card>
-        <v-card-title>
-            Cuestionario de información demográfica
-        </v-card-title>
-
-        <v-card-text>
-            <FormRequest
-                method="post"
-                url="/subjects"
-                :data="form.data"
-                button-text="Guardar"
-                @set-data="setData"
-                @set-errors="setErrors"
-            >
-                <FormRadios
-                    label="Sexo"
-                    icon="restroom"
-                    :options="genders"
-                    v-model="form.data.gender"
-                    :error="form.errors.gender"
-                />
-                
-                <FormInputText
-                    mask="###"
-                    label="Edad"
-                    icon="hashtag"
-                    v-model="form.data.age"
-                    :error="form.errors.age"
-                />
-                
-                <FormInputText
-                    label="Carrera"
-                    icon="graduation-cap"
-                    v-model="form.data.speciality"
-                    :error="form.errors.speciality"
-                />
-                
-                <FormSelect
-                    icon="school"
-                    label="Grado"
-                    :items="grades"
-                    v-model="form.data.grade"
-                    :error="form.errors.grade"
-                />
-
-                <FormRadios
-                    :options="options"
-                    icon="file-circle-question"
-                    v-model="form.data.participated_before"
-                    :error="form.errors.participated_before"
-                    label="¿Has participado antes en estudios con dilemas morales?"
-                />
-            </FormRequest>
-        </v-card-text>
-    </v-card>
+    <v-col cols="12" sm="10" md="8" lg="6" xl="4">
+        <v-card>
+            <v-card-title>
+                Cuestionario de información demográfica
+            </v-card-title>
+    
+            <v-card-text>
+                <FormRequest
+                    method="post"
+                    url="/subjects"
+                    :data="form.data"
+                    button-text="Guardar"
+                    @set-data="setData"
+                    @set-errors="setErrors"
+                >
+                    <FormRadios
+                        label="Sexo"
+                        icon="restroom"
+                        :options="genders"
+                        v-model="form.data.gender"
+                        :error="form.errors.gender"
+                    />
+                    
+                    <FormInputText
+                        mask="###"
+                        label="Edad"
+                        icon="hashtag"
+                        v-model="form.data.age"
+                        :error="form.errors.age"
+                    />
+                    
+                    <FormInputText
+                        label="Carrera"
+                        icon="graduation-cap"
+                        v-model="form.data.speciality"
+                        :error="form.errors.speciality"
+                    />
+                    
+                    <FormSelect
+                        icon="school"
+                        label="Grado"
+                        :items="grades"
+                        v-model="form.data.grade"
+                        :error="form.errors.grade"
+                    />
+    
+                    <FormRadios
+                        :options="options"
+                        icon="file-circle-question"
+                        v-model="form.data.participated_before"
+                        :error="form.errors.participated_before"
+                        label="¿Has participado antes en estudios con dilemas morales?"
+                    />
+                </FormRequest>
+            </v-card-text>
+        </v-card>
+    </v-col>
 </template>

@@ -80,58 +80,60 @@ const showSurvey = (subject: Subject) => {
 </script>
 
 <template>
-    <v-card>
-        <v-card-text>
-            <v-data-table-server
-                :items="items"
-                :headers="headers"
-                :loading="loading"
-                :items-length="items_length"
-                v-model:items-per-page="items_per_page"
-                @update:options="getItems"
+    <v-col cols="12" md="10" lg="8" xl="6">
+        <v-card>
+            <v-card-text>
+                <v-data-table-server
+                    :items="items"
+                    :headers="headers"
+                    :loading="loading"
+                    :items-length="items_length"
+                    v-model:items-per-page="items_per_page"
+                    @update:options="getItems"
+                >
+                    <template v-slot:loading>
+                        <v-skeleton-loader :type="`table-row@${ headers.length }`" />
+                    </template>
+    
+                    <template v-slot:item="{ item }">
+                        <tr class="text-center">
+                            <td v-text="toDateTime(item.answer.created_at)" />
+                            <td v-text="item.id" />
+                            <td v-text="item.answer.question.name" />
+                            <td v-text="item.answer.answer" />
+                            <td v-text="toMinutesSeconds(item.answer.in_time ? (20 - item.answer.seconds) : item.answer.seconds)" />
+                            <td>
+                                <v-icon icon="fas fa-check" color="success" v-if="item.answer.in_time" />
+                                <v-icon icon="fas fa-times" color="error" v-else />
+                            </td>
+                            <td>
+                                <v-btn
+                                    rounded="pill"
+                                    color="primary"
+                                    class="text-none"
+                                    @click="showSurvey(item)"
+                                >
+                                    Ver
+                                </v-btn>
+                            </td>
+                        </tr>
+                    </template>
+                </v-data-table-server>
+            </v-card-text>
+            
+            <ModalDialog
+                :show="show_survey"
+                title="Cuestionario de información demográfica"
+                @close="show_survey = false"
             >
-                <template v-slot:loading>
-                    <v-skeleton-loader :type="`table-row@${ headers.length }`" />
-                </template>
-
-                <template v-slot:item="{ item }">
-                    <tr class="text-center">
-                        <td v-text="toDateTime(item.answer.created_at)" />
-                        <td v-text="item.id" />
-                        <td v-text="item.answer.question.name" />
-                        <td v-text="item.answer.answer" />
-                        <td v-text="toMinutesSeconds(item.answer.in_time ? (20 - item.answer.seconds) : item.answer.seconds)" />
-                        <td>
-                            <v-icon icon="fas fa-check" color="success" v-if="item.answer.in_time" />
-                            <v-icon icon="fas fa-times" color="error" v-else />
-                        </td>
-                        <td>
-                            <v-btn
-                                rounded="pill"
-                                color="primary"
-                                class="text-none"
-                                @click="showSurvey(item)"
-                            >
-                                Ver
-                            </v-btn>
-                        </td>
-                    </tr>
-                </template>
-            </v-data-table-server>
-        </v-card-text>
-        
-        <ModalDialog
-            :show="show_survey"
-            title="Cuestionario de información demográfica"
-            @close="show_survey = false"
-        >
-            <v-list lines="two" class="pt-0">
-                <v-list-item title="Sexo" :subtitle="subject_survey.gender" />
-                <v-list-item title="Edad" :subtitle="subject_survey.age" />
-                <v-list-item title="Carrera" :subtitle="subject_survey.speciality" />
-                <v-list-item title="Grado" :subtitle="subject_survey.grade" />
-                <v-list-item title="¿Has participado antes en estudios con dilemas morales?" :subtitle="subject_survey.participated_before ? 'Sí' : 'No'" />
-            </v-list>
-        </ModalDialog>
-    </v-card>
+                <v-list lines="two" class="pt-0">
+                    <v-list-item title="Sexo" :subtitle="subject_survey.gender" />
+                    <v-list-item title="Edad" :subtitle="subject_survey.age" />
+                    <v-list-item title="Carrera" :subtitle="subject_survey.speciality" />
+                    <v-list-item title="Grado" :subtitle="subject_survey.grade" />
+                    <v-list-item title="¿Has participado antes en estudios con dilemas morales?" :subtitle="subject_survey.participated_before ? 'Sí' : 'No'" />
+                </v-list>
+            </ModalDialog>
+        </v-card>
+    </v-col>
 </template>

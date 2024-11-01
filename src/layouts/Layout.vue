@@ -42,7 +42,7 @@ const updateStep = async (step: 'home' | 'notice' | 'subject' | 'instructions' |
 
 <template>
     <v-app :class="{ 'bg-general': route.name != 'thank-you', 'bg-thank-you': route.name == 'thank-you' }">
-        <v-layout class="rounded rounded-md">
+        <v-layout>
             <v-app-bar flat style="background-color: transparent;" v-if="route.name != 'thank-you'">
                 <v-spacer />
 
@@ -72,18 +72,16 @@ const updateStep = async (step: 'home' | 'notice' | 'subject' | 'instructions' |
             <v-main class="d-flex align-center justify-center">
                 <v-container>
                     <v-row justify="center">
-                        <v-col cols="12" lg="10" xl="6">
-                            <RouterView v-slot="{ Component }">
-                                <Transition name="fade" mode="out-in">
-                                    <component
-                                        :is="Component"
-                                        :loading="loading"
-                                        @logout="logout"
-                                        @update-step="updateStep"
-                                    />
-                                </Transition>
-                            </RouterView>
-                        </v-col>
+                        <RouterView v-slot="{ Component }">
+                            <Transition name="fade" mode="out-in">
+                                <component
+                                    :is="Component"
+                                    :loading="loading"
+                                    @logout="logout"
+                                    @update-step="updateStep"
+                                />
+                            </Transition>
+                        </RouterView>
                     </v-row>
                 </v-container>
             </v-main>

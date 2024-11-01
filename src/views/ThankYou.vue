@@ -9,15 +9,15 @@ const emit = defineEmits<{
 </script>
 
 <template>
-    <div class="text-center text-white">
+    <v-col class="text-center text-white">
         <h2 class="text-h2 mb-3">
             ¡Gracias!
         </h2>
-
+    
         <h4 class="text-h4 mb-3">
             Por tu valiosa participación
         </h4>
-
+    
         <div class="d-flex justify-center">
             <v-btn
                 rounded="pill"
@@ -29,5 +29,5 @@ const emit = defineEmits<{
                 Salir
             </v-btn>
         </div>
-    </div>
+    </v-col>
 </template>

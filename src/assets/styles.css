@@ -25,3 +25,11 @@ html {
     background-repeat: no-repeat;
     background-size: cover;
 }
+
+.v-label {
+    white-space: wrap;
+}
+
+.v-card-title {
+    white-space: wrap;
+}

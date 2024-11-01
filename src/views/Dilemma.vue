@@ -82,70 +82,73 @@ onMounted(() => getSubjectQuestion())
 </script>
 
 <template>
-    <Transition name="fade" mode="out-in">
-        <v-skeleton-loader v-if="loading == 'getting-video'" type="image, button" color="primary" />
-
-        <div v-else>
-            <video
-                ref="video"
-                class="w-100 mb-4"
-                :src="`${ api_url }/storage/${ question.video }`"
-                @ended="setTimer"
-            >
-                Tu navegador no soporta la etiqueta de video
-            </video>
-
-            <Transition name="fade" mode="out-in">
-                <v-container v-if="show_timer">
-                    <v-row>
-                        <v-col cols="12" md="2">
-                            <p
-                                v-text="toMinutesSeconds(seconds)"
-                                :class="{ 'text-h5': true, 'text-white': in_time, 'text-error': in_time == false }"
-                            />
-                        </v-col>
-                        
-                        <v-col cols="12" md="7">
-                            <p class="text-white text-h6" v-text="question.question" />
-                        </v-col>
-
-                        <v-col cols="12" md="3">
-                            <div class="d-flex justify-space-between">
-                                <v-btn
-                                    rounded="pill"
-                                    color="primary"
-                                    :loading="loading == 'saving-answer-Sí'"
-                                    :disabled="loading == 'saving-answer-No'"
-                                    @click="answer('Sí')"
-                                >
-                                    Sí
-                                </v-btn>
-
-                                <v-btn
-                                    rounded="pill"
-                                    color="primary"
-                                    :loading="loading == 'saving-answer-No'"
-                                    :disabled="loading == 'saving-answer-Sí'"
-                                    @click="answer('No')"
-                                >
-                                    No
-                                </v-btn>
-                            </div>
-                        </v-col>
-                    </v-row>
-                </v-container>
-
-                <div class="d-flex justify-center" v-else>
-                    <v-btn
-                        rounded="pill"
-                        color="primary"
-                        class="text-none"
-                        @click="play"
-                    >
-                        Iniciar
-                    </v-btn>
-                </div>
-            </Transition>
-        </div>
-    </Transition>
+    <v-col cols="12" sm="10" md="8" lg="6" xl="4">
+        <Transition name="fade" mode="out-in">
+            <v-skeleton-loader v-if="loading == 'getting-video'" type="image, button" color="primary" />
+    
+            <div v-else>
+                <video
+                    controls
+                    ref="video"
+                    class="w-100 mb-4"
+                    :src="`${ api_url }/storage/${ question.video }`"
+                    @ended="setTimer"
+                >
+                    Tu navegador no soporta la etiqueta de video
+                </video>
+    
+                <Transition name="fade" mode="out-in">
+                    <v-container v-if="show_timer">
+                        <v-row>
+                            <v-col cols="12" md="2">
+                                <p
+                                    v-text="toMinutesSeconds(seconds)"
+                                    :class="{ 'text-h5': true, 'text-white': in_time, 'text-error': in_time == false }"
+                                />
+                            </v-col>
+                            
+                            <v-col cols="12" md="7">
+                                <p class="text-white text-h6" v-text="question.question" />
+                            </v-col>
+    
+                            <v-col cols="12" md="3">
+                                <div class="d-flex justify-space-between">
+                                    <v-btn
+                                        rounded="pill"
+                                        color="primary"
+                                        :loading="loading == 'saving-answer-Sí'"
+                                        :disabled="loading == 'saving-answer-No'"
+                                        @click="answer('Sí')"
+                                    >
+                                        Sí
+                                    </v-btn>
+    
+                                    <v-btn
+                                        rounded="pill"
+                                        color="primary"
+                                        :loading="loading == 'saving-answer-No'"
+                                        :disabled="loading == 'saving-answer-Sí'"
+                                        @click="answer('No')"
+                                    >
+                                        No
+                                    </v-btn>
+                                </div>
+                            </v-col>
+                        </v-row>
+                    </v-container>
+    
+                    <div class="d-flex justify-center" v-else>
+                        <v-btn
+                            rounded="pill"
+                            color="primary"
+                            class="text-none"
+                            @click="play"
+                        >
+                            Iniciar
+                        </v-btn>
+                    </div>
+                </Transition>
+            </div>
+        </Transition>
+    </v-col>
 </template>
