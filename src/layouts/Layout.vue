@@ -88,7 +88,6 @@ const updateStep = async (step: 'home' | 'notice' | 'subject' | 'instructions' |
         </v-layout>
 
         <v-snackbar
-            multi-line
             location="right bottom"
             :color="store.snackbar_type"
             v-model="store.show_snackbar"

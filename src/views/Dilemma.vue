@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { AxiosError } from 'axios'
+import { useStore } from '../store'
 import { useRouter } from 'vue-router'
 import { Question } from '../interfaces'
 import { onMounted, ref, useTemplateRef } from 'vue'
 import { toMinutesSeconds, useAxiosErrors, useAxiosRequest } from '../composables'
 
+const store = useStore()
 const router = useRouter()
 const video = useTemplateRef('video')
 
@@ -12,16 +14,23 @@ const seconds = ref(20)
 const interval = ref(0)
 const in_time = ref(true)
 const show_timer = ref(false)
+const show_play_button = ref(true)
 const loading = ref('getting-video')
 const question = ref({} as Question)
+const current_question_index = ref(0)
 const api_url = String(import.meta.env.VITE_API_URL)
+const questions = ref(['Camino al trabajo', 'La cena', store.user.subject.question.name])
 
-const getSubjectQuestion = async () => {
+const getQuestion = async () => {
     loading.value = 'getting-video'
 
     try {
-        const response = await useAxiosRequest('get', '/questions/get-subject-question')
+        const response = await useAxiosRequest('get', `/questions/${ questions.value[current_question_index.value] }`)
 
+        seconds.value = 20
+        in_time.value = true
+        show_timer.value = false
+        show_play_button.value = true
         question.value = response.question as Question
     } catch (error) {
         useAxiosErrors(error as AxiosError)
@@ -30,7 +39,10 @@ const getSubjectQuestion = async () => {
     }
 }
 
-const play = () => video.value?.play()
+const play = () => {
+    video.value?.play()
+    show_play_button.value = false
+}
 
 const setTimer = () => {
     show_timer.value = true
@@ -70,7 +82,13 @@ const answer = async (answer: string) => {
     try {
         await useAxiosRequest('post', '/answers', data)
 
-        router.push({ name: 'thank-you' })
+        if (current_question_index.value == questions.value.length - 1) {
+            router.push({ name: 'thank-you' })
+        } else {
+            current_question_index.value++
+
+            getQuestion()
+        }
     } catch (error) {
         useAxiosErrors(error as AxiosError)
     } finally {
@@ -78,7 +96,7 @@ const answer = async (answer: string) => {
     }
 }
 
-onMounted(() => getSubjectQuestion())
+onMounted(() => getQuestion())
 </script>
 
 <template>
@@ -88,7 +106,6 @@ onMounted(() => getSubjectQuestion())
     
             <div v-else>
                 <video
-                    controls
                     ref="video"
                     class="w-100 mb-4"
                     :src="`${ api_url }/storage/${ question.video }`"
@@ -138,14 +155,17 @@ onMounted(() => getSubjectQuestion())
                     </v-container>
     
                     <div class="d-flex justify-center" v-else>
-                        <v-btn
-                            rounded="pill"
-                            color="primary"
-                            class="text-none"
-                            @click="play"
-                        >
-                            Iniciar
-                        </v-btn>
+                        <Transition name="fade" mode="out-in">
+                            <v-btn
+                                rounded="pill"
+                                color="primary"
+                                class="text-none"
+                                v-if="show_play_button"
+                                @click="play"
+                            >
+                                Iniciar
+                            </v-btn>
+                        </Transition>
                     </div>
                 </Transition>
             </div>

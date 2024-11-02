@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { AxiosError } from 'axios'
-import { Header, Subject } from '../interfaces'
-import ModalDialog from '../components/ModalDialog.vue'
+import { Answer, Header, Subject } from '../interfaces'
+import DashboardSurvey from '../components/DashboardSurvey.vue'
+import DashboardAnswers from '../components/DashboardAnswers.vue'
 import { toDateTime, toMinutesSeconds, useAxiosErrors, useAxiosRequest } from '../composables'
 
 const headers = ref([
     {
         title: 'Fecha y hora',
-        key: 'answer.created_at',
+        key: 'question.answer.created_at',
         align: 'center',
         sortable: false
     },
@@ -20,25 +21,31 @@ const headers = ref([
     },
     {
         title: 'Grupo',
-        key: 'answer.question.name',
+        key: 'question.name',
         align: 'center',
         sortable: false
     },
     {
         title: 'Respuesta',
-        key: 'answer.answer',
+        key: 'question.answer.answer',
         align: 'center',
         sortable: false
     },
     {
         title: 'Tiempo en responder',
-        key: 'answer.seconds',
+        key: 'question.answer.seconds',
         align: 'center',
         sortable: false
     },
     {
         title: 'Respondido a tiempo',
-        key: 'answer.in_time',
+        key: 'question.answer.in_time',
+        align: 'center',
+        sortable: false
+    },
+    {
+        title: 'Preguntas entrenadoras',
+        key: 'answers',
         align: 'center',
         sortable: false
     },
@@ -54,7 +61,9 @@ const loading = ref(true)
 const items_length = ref(0)
 const items_per_page = ref(0)
 const show_survey = ref(false)
+const show_answers = ref(false)
 const items = ref([] as Subject[])
+const answers = ref([] as Answer[])
 const subject_survey = ref({} as Subject)
 
 const getItems = async () => {
@@ -71,6 +80,11 @@ const getItems = async () => {
     } finally {
         loading.value = false
     }
+}
+
+const showAnswers = (subject: Subject) => {
+    show_answers.value = true
+    answers.value = subject.answers.filter(a => a.question.id != subject.question.id)
 }
 
 const showSurvey = (subject: Subject) => {
@@ -97,14 +111,24 @@ const showSurvey = (subject: Subject) => {
     
                     <template v-slot:item="{ item }">
                         <tr class="text-center">
-                            <td v-text="toDateTime(item.answer.created_at)" />
+                            <td v-text="toDateTime(item.question.answer.created_at)" />
                             <td v-text="item.id" />
-                            <td v-text="item.answer.question.name" />
-                            <td v-text="item.answer.answer" />
-                            <td v-text="toMinutesSeconds(item.answer.in_time ? (20 - item.answer.seconds) : item.answer.seconds)" />
+                            <td v-text="item.question.name" />
+                            <td v-text="item.question.answer.answer" />
+                            <td v-text="toMinutesSeconds(item.question.answer.in_time ? (20 - item.question.answer.seconds) : item.question.answer.seconds)" />
                             <td>
-                                <v-icon icon="fas fa-check" color="success" v-if="item.answer.in_time" />
+                                <v-icon icon="fas fa-check" color="success" v-if="item.question.answer.in_time" />
                                 <v-icon icon="fas fa-times" color="error" v-else />
+                            </td>
+                            <td>
+                                <v-btn
+                                    rounded="pill"
+                                    color="primary"
+                                    class="text-none"
+                                    @click="showAnswers(item)"
+                                >
+                                    Ver
+                                </v-btn>
                             </td>
                             <td>
                                 <v-btn
@@ -120,20 +144,18 @@ const showSurvey = (subject: Subject) => {
                     </template>
                 </v-data-table-server>
             </v-card-text>
-            
-            <ModalDialog
+
+            <DashboardSurvey
                 :show="show_survey"
-                title="Cuestionario de información demográfica"
+                :subject="subject_survey"
                 @close="show_survey = false"
-            >
-                <v-list lines="two" class="pt-0">
-                    <v-list-item title="Sexo" :subtitle="subject_survey.gender" />
-                    <v-list-item title="Edad" :subtitle="subject_survey.age" />
-                    <v-list-item title="Carrera" :subtitle="subject_survey.speciality" />
-                    <v-list-item title="Grado" :subtitle="subject_survey.grade" />
-                    <v-list-item title="¿Has participado antes en estudios con dilemas morales?" :subtitle="subject_survey.participated_before ? 'Sí' : 'No'" />
-                </v-list>
-            </ModalDialog>
+            />
+            
+            <DashboardAnswers
+                :answers="answers"
+                :show="show_answers"
+                @close="show_answers = false"
+            />
         </v-card>
     </v-col>
 </template>

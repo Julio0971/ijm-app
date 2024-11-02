@@ -17,7 +17,6 @@ const routes = [
         { path: '/instructions', name: 'instructions', component: () => import('../views/Instructions.vue'), meta: { title: 'Instrucciones' } },
         { path: '/notice', name: 'notice', component: () => import('../views/Notice.vue'), meta: { title: 'Carta de consentimiento informado ' } },
         { path: '/subject', name: 'subject', component: () => import('../views/Subject.vue'), meta: { title: 'Cuestionario de información demográfica' } },
-        { path: '/:pathMatch(.*)*', name: 'NotFound', component: () => import('../views/NotFound.vue'), meta: { title: 'Página no encontrada' } },
     ]},
 ]
 
