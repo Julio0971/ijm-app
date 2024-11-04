@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import { useStore } from '../store'
 import type { AxiosError } from 'axios'
 import { useRoute, useRouter } from 'vue-router'
@@ -9,41 +8,21 @@ const store = useStore()
 const route = useRoute()
 const router = useRouter()
 
-const loading = ref(false)
-
 const logout = async () => {
-    loading.value = true
-
     try {
         await useAxiosRequest('post', '/logout')
 
         router.push({ name: 'login' })
     } catch (error) {
         useAxiosErrors(error as AxiosError)
-    } finally {
-        loading.value = false
-    }
-}
-
-const updateStep = async (step: 'home' | 'notice' | 'subject' | 'instructions' | 'dilemma' | 'thank-you') => {
-    loading.value = true
-
-    try {
-        await useAxiosRequest('put', '/users/update-step', { step })
-
-        router.push({ name: step })
-    } catch (error) {
-        useAxiosErrors(error as AxiosError)
-    } finally {
-        loading.value = false
     }
 }
 </script>
 
 <template>
-    <v-app :class="{ 'bg-general': route.name != 'thank-you', 'bg-thank-you': route.name == 'thank-you' }">
+    <v-app :class="{ 'bg-general': store.step != 'thank-you', 'bg-thank-you': store.step == 'thank-you' }">
         <v-layout>
-            <v-app-bar flat style="background-color: transparent;" v-if="route.name != 'thank-you'">
+            <v-app-bar flat style="background-color: transparent;" v-if="route.name == 'dashboard'">
                 <v-spacer />
 
                 <v-menu>
@@ -74,12 +53,7 @@ const updateStep = async (step: 'home' | 'notice' | 'subject' | 'instructions' |
                     <v-row justify="center">
                         <RouterView v-slot="{ Component }">
                             <Transition name="fade" mode="out-in">
-                                <component
-                                    :is="Component"
-                                    :loading="loading"
-                                    @logout="logout"
-                                    @update-step="updateStep"
-                                />
+                                <component :is="Component" />
                             </Transition>
                         </RouterView>
                     </v-row>

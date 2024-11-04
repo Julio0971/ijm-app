@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { AxiosError } from 'axios'
 import { useStore } from '../store'
-import { useRouter } from 'vue-router'
 import { Question } from '../interfaces'
 import { onMounted, ref, useTemplateRef } from 'vue'
 import { toMinutesSeconds, useAxiosErrors, useAxiosRequest } from '../composables'
 
+const emit = defineEmits<{
+    (e: 'updateStep', step: 'thank-you'): void
+}>()
+
 const store = useStore()
-const router = useRouter()
 const video = useTemplateRef('video')
 
 const seconds = ref(20)
@@ -19,7 +21,7 @@ const loading = ref('getting-video')
 const question = ref({} as Question)
 const current_question_index = ref(0)
 const api_url = String(import.meta.env.VITE_API_URL)
-const questions = ref(['Camino al trabajo', 'La cena', store.user.subject.question.name])
+const questions = ref(['Camino al trabajo', 'La cena', store.question_name])
 
 const getQuestion = async () => {
     loading.value = 'getting-video'
@@ -76,6 +78,7 @@ const answer = async (answer: string) => {
         answer,
         seconds: seconds.value,
         in_time: in_time.value,
+        subject_id: store.subject_id,
         question_id: question.value.id,
     }
 
@@ -83,7 +86,7 @@ const answer = async (answer: string) => {
         await useAxiosRequest('post', '/answers', data)
 
         if (current_question_index.value == questions.value.length - 1) {
-            router.push({ name: 'thank-you' })
+            emit('updateStep', 'thank-you')
         } else {
             current_question_index.value++
 

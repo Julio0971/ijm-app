@@ -1,10 +1,6 @@
 <script setup lang="ts">
-const props = defineProps<{
-    loading: boolean
-}>()
-
 const emit = defineEmits<{
-    (e: 'updateStep', step: 'home' | 'notice' | 'subject' | 'instructions' | 'dilemma' | 'thank-you'): void
+    (e: 'updateStep', step: 'dilemma'): void
 }>()
 </script>
 
@@ -45,7 +41,6 @@ const emit = defineEmits<{
                         rounded="pill"
                         color="primary"
                         class="text-none"
-                        :loading="props.loading"
                         @click="emit('updateStep', 'dilemma')"
                     >
                         Continuar

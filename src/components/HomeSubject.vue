@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import FormSelect from '../components/FormSelect.vue'
-import FormRadios from '../components/FormRadios.vue'
-import FormRequest from '../components/FormRequest.vue'
-import FormInputText from '../components/FormInputText.vue'
+import { useStore } from '../store'
+import FormSelect from './FormSelect.vue'
+import FormRadios from './FormRadios.vue'
+import FormRequest from './FormRequest.vue'
+import FormInputText from './FormInputText.vue'
 
-const router = useRouter()
+const store = useStore()
+
+const emit = defineEmits<{
+    (e: 'updateStep', step: 'instructions'): void
+}>()
 
 const form = ref({
     data: {
@@ -47,7 +51,7 @@ const options = ref([
     { label: 'No', value: '0' },
 ])
 
-const setData = () => {
+const setData = (data: { subject_id: number, question_name: string }) => {
     form.value.errors = {
         gender: '',
         age: '',
@@ -56,7 +60,13 @@ const setData = () => {
         participated_before: '',
     }
 
-    router.push({ name: 'instructions' })
+    store.subject_id = data.subject_id
+    store.question_name = data.question_name
+    
+    localStorage.setItem('question_name', data.question_name)
+    localStorage.setItem('subject_id', data.subject_id.toString())
+    
+    emit('updateStep', 'instructions')
 }
 
 const setErrors = (errors: any) => form.value.errors = errors

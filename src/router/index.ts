@@ -7,16 +7,11 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 const history = createWebHashHistory(import.meta.env.BASE_URL)
 
 const routes = [
-    { path: '/', name: 'root', redirect: '/login' },
     { path: '/login', name: 'login', component: () => import('../views/Login.vue'), meta: { title: 'Login' } },
     { path: '/', component: () => import('../layouts/Layout.vue'), children: [
-        { path: '/home', name: 'home', component: () => import('../views/Home.vue'), meta: { title: 'Inicio' } },
-        { path: '/dilemma', name: 'dilemma', component: () => import('../views/Dilemma.vue'), meta: { title: 'Dilema' } },
-        { path: '/thank-you', name: 'thank-you', component: () => import('../views/ThankYou.vue'), meta: { title: 'Gracias' } },
+        { path: '/', name: 'home', component: () => import('../views/Home.vue'), meta: { title: 'Estudio' } },
         { path: '/dashboard', name: 'dashboard', component: () => import('../views/Dashboard.vue'), meta: { title: 'Dashboard' } },
-        { path: '/instructions', name: 'instructions', component: () => import('../views/Instructions.vue'), meta: { title: 'Instrucciones' } },
-        { path: '/notice', name: 'notice', component: () => import('../views/Notice.vue'), meta: { title: 'Carta de consentimiento informado ' } },
-        { path: '/subject', name: 'subject', component: () => import('../views/Subject.vue'), meta: { title: 'Cuestionario de información demográfica' } },
+        { path: '/:pathMatch(.*)*', name: 'NotFound', component: () => import('../views/NotFound.vue'), meta: { title: 'Página no encontrada' } },
     ]},
 ]
 
@@ -30,13 +25,11 @@ router.beforeEach(async (to, _from) => {
 
         store.user = response.user as User
 
-        if (store.user.role == 'admin' && (to.name == 'login' || to.name != 'dashboard')) {
+        if (to.name != 'dashboard') {
             return { name: 'dashboard' }
-        } else if (store.user.role == 'participant' && (to.name == 'login' || to.name != store.user.step)) {
-            return { name: store.user.step ?? '' }
         }
     } catch (error) {
-        if (to.name != 'login') {
+        if (to.name == 'dashboard') {
             return { name: 'login' }
         }
     }

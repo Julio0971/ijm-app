@@ -1,10 +1,6 @@
 <script setup lang="ts">
-const props = defineProps<{
-    loading: boolean
-}>()
-
 const emit = defineEmits<{
-    (e: 'logout'): void
+    (e: 'updateStep', step: 'home'): void
 }>()
 </script>
 
@@ -23,10 +19,9 @@ const emit = defineEmits<{
                 rounded="pill"
                 class="text-none"
                 color="secondary"
-                :loading="props.loading"
-                @click="emit('logout')"
+                @click="emit('updateStep', 'home')"
             >
-                Salir
+                Ir al inicio
             </v-btn>
         </div>
     </v-col>

@@ -2,9 +2,6 @@ export interface User {
     id: number
     name: string
     username: string
-    step: 'home' | 'notice' | 'subject' | 'instructions' | 'dilemma' | 'thank-you' | null
-    role: 'admin' | 'participant'
-    subject: Subject
 }
 
 export interface Question {
@@ -25,7 +22,6 @@ export interface Subject {
     participated_before: 1 | 0
     question: Question
     answers: Answer[]
-    user: User
 }
 
 export interface Answer {

@@ -1,35 +1,51 @@
 <script setup lang="ts">
-const props = defineProps<{
-    loading: boolean
-}>()
+import { useStore } from '../store'
+import HomeStart from '../components/HomeStart.vue'
+import HomeNotice from '../components/HomeNotice.vue'
+import HomeSubject from '../components/HomeSubject.vue'
+import HomeDilemma from '../components/HomeDilemma.vue'
+import HomeThankYou from '../components/HomeThankYou.vue'
+import HomeInstructions from '../components/HomeInstructions.vue'
 
-const emit = defineEmits<{
-    (e: 'updateStep', step: 'notice' | 'subject' | 'instructions' | 'dilemma' | 'thank-you'): void
-}>()
+const updateStep = async (step: 'home' | 'notice' | 'subject' | 'instructions' | 'dilemma' | 'thank-you') => {
+    store.step = step
+
+    localStorage.setItem('step', step)
+}
+
+const store = useStore()
 </script>
 
 <template>
-    <v-col class="text-center text-white">
-        <v-img src="/images/logo.svg" height="158" class="mb-6" />
-
-        <h4 class="text-h4 mb-3">
-            Investigación sobre juicios morales
-        </h4>
-
-        <h6 class="text-h6 mb-3">
-            Gracias por tu valiosa participación
-        </h6>
-
-        <div class="d-flex justify-center">
-            <v-btn
-                rounded="pill"
-                class="text-none"
-                color="secondary"
-                :loading="props.loading"
-                @click="emit('updateStep', 'notice')"
-            >
-                Iniciar
-            </v-btn>
-        </div>
-    </v-col>
+    <Transition name="fade" mode="out-in">
+        <HomeStart
+            v-if="store.step == 'home'"
+            @update-step="updateStep"
+        />
+        
+        <HomeNotice
+            v-else-if="store.step == 'notice'"
+            @update-step="updateStep"
+            />
+            
+        <HomeSubject
+            v-else-if="store.step == 'subject'"
+            @update-step="updateStep"
+        />
+        
+        <HomeInstructions
+            v-else-if="store.step == 'instructions'"
+            @update-step="updateStep"
+        />
+        
+        <HomeDilemma
+            v-else-if="store.step == 'dilemma'"
+            @update-step="updateStep"
+        />
+        
+        <HomeThankYou
+            v-else-if="store.step == 'thank-you'"
+            @update-step="updateStep"
+        />
+    </Transition>
 </template>
