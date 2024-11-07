@@ -16,7 +16,7 @@ const emit = defineEmits<{
     
         <div class="d-flex justify-center">
             <v-btn
-                rounded="pill"
+                rounded
                 class="text-none"
                 color="secondary"
                 @click="emit('updateStep', 'home')"

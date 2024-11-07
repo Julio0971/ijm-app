@@ -134,7 +134,7 @@ onMounted(() => getQuestion())
                             <v-col cols="12" md="3">
                                 <div class="d-flex justify-space-between">
                                     <v-btn
-                                        rounded="pill"
+                                        rounded
                                         color="primary"
                                         :loading="loading == 'saving-answer-Sí'"
                                         :disabled="loading == 'saving-answer-No'"
@@ -144,7 +144,7 @@ onMounted(() => getQuestion())
                                     </v-btn>
     
                                     <v-btn
-                                        rounded="pill"
+                                        rounded
                                         color="primary"
                                         :loading="loading == 'saving-answer-No'"
                                         :disabled="loading == 'saving-answer-Sí'"
@@ -160,7 +160,7 @@ onMounted(() => getQuestion())
                     <div class="d-flex justify-center" v-else>
                         <Transition name="fade" mode="out-in">
                             <v-btn
-                                rounded="pill"
+                                rounded
                                 color="primary"
                                 class="text-none"
                                 v-if="show_play_button"

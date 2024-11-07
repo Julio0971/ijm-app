@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import { useDisplay } from 'vuetify'
+
+const { mobile } = useDisplay()
+
 const emit = defineEmits<{
     (e: 'updateStep', step: 'home' | 'subject'): void
 }>()
@@ -21,11 +25,15 @@ const emit = defineEmits<{
                 </p>
                 
                 <p class="mb-3">
-                    Dr. Jonathan Isaac Flores Ascencio
+                    <v-badge content="1" color="primary">
+                        Dr. Jonathan Isaac Flores Ascencio &nbsp;&nbsp
+                    </v-badge>
                 </p>
-    
+                
                 <p class="mb-3">
-                    Dr. Juan Gerardo Martínez Borrayo
+                    <v-badge content="2" color="primary">
+                        Dr. Juan Gerardo Martínez Borrayo &nbsp;&nbsp
+                    </v-badge>
                 </p>
                 
                 <p class="mb-3">
@@ -52,6 +60,13 @@ const emit = defineEmits<{
                 
                 <p class="mb-3">
                     <strong>
+                        Sugerencia:
+                    </strong>
+                    Asegúrate de estar en un lugar cómodo y que nadie te vaya a interrumpir durante los próximos 10 minutos. Te recomendamos utilizar audífonos durante el estudio ya que verás tres videos cortos y es indispensable que comprendas bien las narraciones.
+                </p>
+                
+                <p class="mb-3">
+                    <strong>
                         Riesgos:
                     </strong>
                     Su participación no conlleva ningún riesgo. Sin embargo, si en algún momento se siente incómodo/a, tiene la libertad de abandonar el estudio.
@@ -71,26 +86,50 @@ const emit = defineEmits<{
                 <p class="mb-3">
                     Agradecemos su tiempo y colaboración.
                 </p>
-    
-                <div class="d-flex justify-space-between mt-6">
-                    <v-btn
-                        color="info"
-                        rounded="pill"
-                        class="text-none"
-                        @click="emit('updateStep', 'subject')"
-                    >
-                        Acepto participar
-                    </v-btn>
+
+                <v-divider class="mb-3" />
+                
+                <p class="mb-3 text-caption text-left">
+                    1. Departamento de Ciencias Sociales y Humanidades del Centro Universitario de los Valles de la Universidad de Guadalajara:
+                    <a href="mailto:jonathan.flores6716@academicos.udg.mx" class="text-info text-decoration-none font-weight-bold">
+                        jonathan.flores6716@academicos.udg.mx
+                    </a>
+                </p>
+                
+                <p class="mb-3 text-caption text-left">
+                    2. Departamento de Neurociencias del Centro Universitario de Ciencias de la Salud de la Universidad de Guadalajara:
+                    <a href="mailto:juan.mborrayo@academicos.udg.mx" class="text-info text-decoration-none font-weight-bold">
+                        juan.mborrayo@academicos.udg.mx
+                    </a>
+                </p>
+
+                <v-row justify="space-between" class="mt-6">
+                    <v-col cols="12" sm="6">
+                        <v-btn
+                            rounded
+                            color="info"
+                            :block="mobile"
+                            class="text-none"
+                            @click="emit('updateStep', 'subject')"
+                        >
+                            Acepto participar
+                        </v-btn>
+                    </v-col>
                     
-                    <v-btn
-                        rounded="pill"
-                        color="primary"
-                        class="text-none"
-                        @click="emit('updateStep', 'home')"
-                    >
-                        No acepto participar
-                    </v-btn>
-                </div>
+                    <v-col cols="12" sm="6">
+                        <div class="d-flex justify-end">
+                            <v-btn
+                                rounded
+                                color="primary"
+                                :block="mobile"
+                                class="text-none"
+                                @click="emit('updateStep', 'home')"
+                            >
+                                No acepto participar
+                            </v-btn>
+                        </div>
+                    </v-col>
+                </v-row>
             </v-card-text>
         </v-card>
     </v-col>

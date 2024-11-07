@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { AxiosError } from 'axios'
-import { Header, Subject } from '../interfaces'
+import { Answer, Header, Subject } from '../interfaces'
 import { toDateTime, toMinutesSeconds, useAxiosErrors, useAxiosRequest } from '../composables'
 
 const headers = ref([
@@ -80,6 +80,16 @@ const getItems = async (pagination: { page: number, itemsPerPage: number }) => {
         loading.value = false
     }
 }
+
+const getAnswer = (subject: Subject) => {
+    const answer = subject.answers.find(a => a.question.id == subject.question.id)
+
+    if (answer) {
+        return answer
+    }
+
+    return {} as Answer
+}
 </script>
 
 <template>
@@ -97,18 +107,21 @@ const getItems = async (pagination: { page: number, itemsPerPage: number }) => {
 
         <template v-slot:item="{ item }">
             <tr class="text-center">
-                <td v-text="toDateTime(item.question.answer.created_at)" />
+                <td v-text="toDateTime(getAnswer(item).created_at)" />
                 <td v-text="item.id" />
                 <td v-text="item.question.name" />
-                <td v-text="item.question.answer.answer" />
-                <td v-text="toMinutesSeconds(item.question.answer.in_time ? (20 - item.question.answer.seconds) : item.question.answer.seconds)" />
+                <td v-text="getAnswer(item).answer ?? '---'" />
+                <td v-text="getAnswer(item).seconds ? toMinutesSeconds(getAnswer(item).in_time ? (20 - getAnswer(item).seconds) : getAnswer(item).seconds) : '---'" />
                 <td>
-                    <v-icon icon="fas fa-check" color="success" v-if="item.question.answer.in_time" />
-                    <v-icon icon="fas fa-times" color="error" v-else />
+                    <v-icon icon="fas fa-check" color="success" v-if="getAnswer(item).in_time && getAnswer(item).in_time == 1" />
+                    <v-icon icon="fas fa-times" color="error" v-else-if="getAnswer(item).in_time && getAnswer(item).in_time == 0" />
+                    <span v-else>
+                        ---
+                    </span>
                 </td>
                 <td>
                     <v-btn
-                        rounded="pill"
+                        rounded
                         color="primary"
                         class="text-none"
                         @click="emit('showAnswers', item)"
@@ -118,7 +131,7 @@ const getItems = async (pagination: { page: number, itemsPerPage: number }) => {
                 </td>
                 <td>
                     <v-btn
-                        rounded="pill"
+                        rounded
                         color="primary"
                         class="text-none"
                         @click="emit('showSurvey', item)"

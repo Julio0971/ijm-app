@@ -41,6 +41,12 @@ const emit = defineEmits<{
             </thead>
 
             <tbody>
+                <tr v-if="answers.length == 0">
+                    <td colspan="5" class="text-center">
+                        No hay respuestas para mostrar
+                    </td>
+                </tr>
+
                 <tr v-for="answer in answers" :key="answer.id" class="text-center">
                     <td v-text="toDateTime(answer.created_at)" />
                     <td v-text="answer.question.name" />

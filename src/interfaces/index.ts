@@ -10,7 +10,6 @@ export interface Question {
     question: string
     video: string | null
     description: string | null
-    answer: Answer
 }
 
 export interface Subject {

@@ -12,7 +12,7 @@ const router = useRouter()
     
         <div class="d-flex justify-center">
             <v-btn
-                rounded="pill"
+                rounded
                 class="text-none"
                 color="secondary"
                 @click="router.push({ name: 'home' })"

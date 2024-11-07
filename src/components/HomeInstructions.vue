@@ -38,7 +38,7 @@ const emit = defineEmits<{
     
                 <div class="d-flex justify-end mt-6">
                     <v-btn
-                        rounded="pill"
+                        rounded
                         color="primary"
                         class="text-none"
                         @click="emit('updateStep', 'dilemma')"
